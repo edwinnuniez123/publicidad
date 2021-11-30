@@ -41,6 +41,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
+  #  'oauth2_provider',
+
+   # 'authentication',
+
     
 ]
 
@@ -52,7 +56,28 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+ #   'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
+
+# -- Set up DRF to use OAuth2
+
+#REST_FRAMEWORK = {
+#    'DEFAULT_AUTHENTICATION_CLASSES': (
+#        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+#        'rest_framework.authentication.SessionAuthentication', # To keep the Browsable API
+#    ),
+#    'DEFAULT_PERMISSION_CLASSES': (
+#        'rest_framework.permissions.IsAuthenticated',
+#    ),
+#}
+
+# --- Specify the authentication backends 
+
+#AUTHENTICATION_BACKENDS = (
+#    'django.contrib.auth.backends.ModelBackend' # To keep the Browsable API
+#    'oauth2_provider.backends.OAuth2Backend',
+#)
 
 ROOT_URLCONF = 'publicidad.urls'
 
@@ -71,6 +96,8 @@ TEMPLATES = [
         },
     },
 ]
+
+#AUTH_USER_MODEL = "authentication.CustomUser"
 
 WSGI_APPLICATION = 'publicidad.wsgi.application'
 
