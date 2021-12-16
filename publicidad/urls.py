@@ -16,8 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from todo import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myapi.urls')),
     #path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+
+    # Registration of new users
+    path('register/', views.RegistrationView.as_view()),
+
+    # Todos endpoint
+    path('todos/', views.TodosView.as_view()),
+    path('todos/(^P<todo_id>[0-9]*)', views.TodosView.as_view()),
+
+    # API authentication
+    path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

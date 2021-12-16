@@ -22,3 +22,16 @@ class Deal(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class User(models.Model):
+	name = models.CharField(max_length=50, unique=True)
+	email = models.EmailField(max_length=70, blank=True, unique=True)
+	password = models.CharField(max_length=12)
+
+	def __str__(self):
+		return self.name
+
+class User_store(models.Model):
+	user = models.ForeignKey('User', on_delete=models.CASCADE,)
+	store = models.ForeignKey('Store', on_delete=models.CASCADE,)
+	

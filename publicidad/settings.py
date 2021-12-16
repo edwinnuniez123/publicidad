@@ -28,6 +28,18 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+        ('oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+         'rest_framework.authentication.SessionAuthentication'),
+
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.ModelSerializer',
+
+    'DEFAULT_PERMISSION_CLASSES':
+    ('rest_framework.permissions.IsAdminUser',)
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,8 +53,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-  #  'oauth2_provider',
-
+    #'provider', 
+    #'provider.oauth2', 
+    'oauth2_provider',
+    'todo',
+    
+    'django_celery_beat',
+    'celery',
    # 'authentication',
 
     
@@ -59,6 +76,28 @@ MIDDLEWARE = [
 
  #   'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
+
+from celery.schedules import crontab
+CELERY_BROKER_URL = 'amqp://edwin123:programas@127.0.0.1:5672/myvhost'
+CELERY_TIMEZONE = 'UTC' #for example 'Europe/London'
+CELERY_IMPORTS = ['myapi.tasks']
+CELERY_BEAT_SCHEDULE = {
+'celery_test': {
+
+    'task': 'myapi.tasks.check_for_orders',
+    'schedule': crontab(minute=0, hour=0), #every day at midnight
+},
+}
+
+
+# e-mail settings
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'edwin.jnm123@gmail.com'
+EMAIL_HOST_PASSWORD = 'programas'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 # -- Set up DRF to use OAuth2
 
